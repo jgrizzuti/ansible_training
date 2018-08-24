@@ -1,0 +1,30 @@
+--- 
+- 
+  connection: local
+  gather_facts: false
+  hosts: MX80_Lab_4
+  name: "Hello World!"
+  roles: 
+    - Juniper.junos
+  tasks: 
+    - 
+      juniper_junos_facts: 
+        host: "{{junos_host}}"
+        user: "{{ADMUSER}}"
+        passwd: "{{ADMPASS}}"
+      name: "Get Junos Device Information"
+      register: junos
+    - 
+#      debug: msg="{{junos.facts.version}}" version 1.0.3  Modulo Juniper
+      debug:
+        var: junos.version
+      name: "Print Junos facts"
+#  vars_prompt: 
+#    - 
+#      name: USERNAME
+#      private: false
+#      prompt: "User name"
+#    - 
+#      name: DEVICE_PASSWORD
+#     private: true
+#      prompt: "Device Password"

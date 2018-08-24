@@ -1,0 +1,25 @@
+--- 
+- 
+  connection: local
+  gather_facts: false
+  hosts: MX80_01
+  name: "Hello World!"
+  roles: 
+    - Juniper.junos
+  tasks: 
+    - 
+      junos_get_facts: "host={{ junos_host}} user={{USERNAME}} passwd={{DEVICE_PASSWORD}}"
+      name: "Get Junos Device Information"
+      register: junos
+    - 
+      debug: msg="{{junos.facts.version}}"
+      name: "Print Junos facts"
+  vars_prompt: 
+    - 
+      name: USERNAME
+      private: false
+      prompt: "User name"
+    - 
+      name: DEVICE_PASSWORD
+      private: true
+      prompt: "Device Password"

@@ -1,0 +1,9 @@
+
+{% for item in interfaces %}
+     set interfaces {{ item.name }} unit {{ item.unit }} family inet address {{item.ipv4}}/{{item.mask}}
+{% endfor %}
+
+
+set routing-options autonomous-system XXXXX
+set protocols bgp group ext-peers type external peer-as XXXX neighbor XXXX
+

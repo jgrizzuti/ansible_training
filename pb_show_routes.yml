@@ -1,0 +1,13 @@
+---
+- name: Display Routes
+  hosts: MX80_11
+  connection: local
+  gather_facts: no
+  
+  tasks:
+   - 
+      name: Comando Show Route
+      junos_command:
+        provider: "{{ credentials }}"
+        commands: show route
+        display : text 

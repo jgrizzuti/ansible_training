@@ -1,0 +1,49 @@
+--- 
+- 
+  connection: local
+  gather_facts: false
+  hosts: MX80_04
+  roles:
+    - Junos.junos
+  name: "Change configuration using juniper_junos_config module"
+  tasks: 
+    - 
+      file: 
+        path: "Configuraciones/{{ inventory_hostname }}"
+        state: directory
+      name: "creacion de directorio para cada Nodo"
+    - 
+      name: "Archivos de Configuracion OSPF"
+      template: 
+        dest: "Configuraciones/{{inventory_hostname}}/{{inventory_hostname}}_ospf.conf"
+        src: ospf.j2
+    - 
+      juniper_junos_config: 
+        format: set
+        host: "{{junos_host}}"
+        load: merge
+        passwd: "{{ADMPASS}}"
+        src: "Configuraciones/{{inventory_hostname}}/{{inventory_hostname}}_ospf.conf"
+        user: "{{ADMUSER}}"
+      name: "Aplicar configuracion"
+ 
+ 
+ 
+ 
+ 
+ 
+ # Ejemplo con modulo CORE  
+ # -
+ #     name: Aplicar configuracion
+ #     juniper_junos_config:
+ #       provider: "{{ credentials }}"
+ #       timeout: 300
+ #       src: Configuraciones/{{inventory_hostname}}/{{inventory_hostname}}_interfaces.conf
+ #       src_format: set  
+ #       
+ #   - 
+ #     name: loopback0
+ #     junos_command:
+ #       provider: "{{ credentials }}"
+ #       commands: show interface lo0 terse
+ #      display : text 

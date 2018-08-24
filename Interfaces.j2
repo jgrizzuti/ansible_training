@@ -1,0 +1,4 @@
+
+{% for item in interfaces %}
+     set interfaces {{ item.name }} unit {{ item.unit }} family inet address {{item.ipv4}}/{{item.mask}}
+{% endfor %}

@@ -1,0 +1,33 @@
+---
+- name: Change configuration using junos_config module
+  hosts: MX80_02
+  connection: local
+  gather_facts: no
+#  vars_files:
+#  - "interfaces.yml"
+  
+  tasks:
+    - 
+      file: 
+        path: "Configuraciones/{{ inventory_hostname }}"
+        state: directory
+      name: "creacion de directorio para cada Nodo"
+    -  
+      template:
+        src: ospf.j2
+        dest: Configuraciones/{{inventory_hostname}}/{{inventory_hostname}}_ospf.conf
+      name: "Archivos de Configuracion OSPF"
+ #   -
+ #     name: Aplicar configuracion
+ #     junos_config:
+ #       provider: "{{ credentials }}"
+ #       timeout: 300
+ #       src: Configuraciones/{{inventory_hostname}}/{{inventory_hostname}}_interfaces.conf
+ #       src_format: set  
+ #       
+ #   - 
+ #     name: loopback0
+ #     junos_command:
+ #       provider: "{{ credentials }}"
+ #       commands: show interface lo0 terse
+ #      display : text 

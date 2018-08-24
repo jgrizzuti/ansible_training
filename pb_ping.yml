@@ -1,0 +1,21 @@
+--- 
+- 
+  connection: local
+  gather_facts: false
+  hosts: MX80_01
+  name: PING
+  roles: 
+    - Juniper.junos
+  tasks: 
+    - 
+      juniper_junos_ping: 
+        host: "{{junos_host}}"
+        passwd: "{{ADMPASS}}"
+        user: "{{ADMUSER}}"
+        dest: "10.10.10.10"
+      name: "Ping 10.10.10.1 with default parameters. Fails if any packets lost."
+      register: response
+    - 
+      name: Print all keys in the response.
+      debug:
+        var: response

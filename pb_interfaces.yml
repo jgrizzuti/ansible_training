@@ -1,0 +1,28 @@
+---
+- name: Change configuration using junos_config module
+  hosts: MX80
+  connection: local
+  gather_facts: no
+#  vars_files:
+#  - "interfaces.yml"
+  
+  tasks:
+
+  - name: Assign interfaces ip address
+    tags: configuration
+    junos_config:
+      provider: "{{ credentials }}"
+      lines:
+        - "set interfaces {{ item.name }} unit {{ item.unit }} family inet address {{item.ipv4}}/{{item.mask}}"
+      comment: "create interfaces from Ansible"
+      timeout: 300
+    with_items: "{{ interfaces }}"
+
+#  - name: check vlan
+#    junos_command:
+#     provider: "{{  credentials }}"
+#     commands:
+#       - show vlans {{item.name}}
+#      waitfor:
+#       - "result[0].vlan-information.vlan.vlan-name eq {{item.name }} "
+#    with_items: "{{ vlans }}"

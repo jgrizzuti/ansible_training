@@ -1,0 +1,33 @@
+---
+- name: Change configuration using junos_config module
+  hosts: MX80_01
+  connection: local
+  gather_facts: no
+#  vars_files:
+#  - "interfaces.yml"
+  
+  tasks:
+    - 
+      file: 
+        path: "Configuraciones/{{ inventory_hostname }}"
+        state: directory
+      name: "creacion de directorio para cada Nodo"
+    -  
+      template:
+        src: Interfaces.j2
+        dest: Configuraciones/{{inventory_hostname}}/{{inventory_hostname}}_interfaces.conf
+      name: "Archivos de Configuracion"
+    -
+      name: Aplicar configuracion
+      junos_config:
+        provider: "{{ credentials }}"
+        timeout: 300
+        src: Configuraciones/{{inventory_hostname}}/{{inventory_hostname}}_interfaces.conf
+        src_format: set  
+        
+    - 
+      name: loopback0
+      junos_command:
+        provider: "{{ credentials }}"
+        commands: show interface lo0.0 terse
+        display : text 
